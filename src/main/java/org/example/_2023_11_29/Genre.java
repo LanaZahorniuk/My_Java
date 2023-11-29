@@ -9,5 +9,5 @@ public enum Genre {
     SCIENCE,
     FANTASY,
     HISTORY,
-    BIOGRAPHY;
+    BIOGRAPHY
 }

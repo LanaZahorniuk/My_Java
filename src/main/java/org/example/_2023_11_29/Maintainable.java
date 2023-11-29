@@ -9,5 +9,5 @@ package org.example._2023_11_29;
 public interface Maintainable {
     void repairItem();
     void updateItemCondition(BookStatus condition);
-    BookStatus checkCondition();
+    ItemCondition checkCondition();
 }

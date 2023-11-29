@@ -26,7 +26,7 @@ public class Librarian implements Maintainable{
     }
 
     @Override
-    public BookStatus checkCondition() {
+    public ItemCondition checkCondition() {
         return null;
     }
 }

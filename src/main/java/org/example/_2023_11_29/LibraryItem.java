@@ -13,4 +13,9 @@ public abstract class LibraryItem {
     public String author;
     public Genre genre;
 
+    public LibraryItem(String title, String author, Genre genre) {
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+    }
 }
