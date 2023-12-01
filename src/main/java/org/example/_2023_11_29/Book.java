@@ -9,7 +9,7 @@ import java.util.List;
         Поля:
             BookStatus status
             LocalDate publishDate
-            int pageCount
+            int pageCount  11111
  */
 public class Book extends LibraryItem implements Borrowable, Maintainable {
 
