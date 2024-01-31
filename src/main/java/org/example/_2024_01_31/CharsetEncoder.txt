@@ -1,0 +1,199 @@
+CharsetEncoder
+
+https://docs.oracle.com/javase/7/docs/api/java/nio/charset/CharsetEncoder.html
+
+- что это за класс:
+общедоступный абстрактный класс
+Механизм, который может преобразовывать последовательность шестнадцатибитных символов Юникода в последовательность
+байтов определенной кодировки.
+
+
+- за что отвечает:
+Этот класс часто используется при работе с операциями ввода-вывода и преобразованием текстовых данных.
+который помогает перевести текст (символы) в последовательность байтов с использованием
+определенной кодировки символов. Кодировка определяет соответствие между символами и байтами, что важно при сохранении
+или передаче текстовой информации в компьютерных программах.
+
+Если вы хотите сохранить текст в файле или передать через сеть, вам нужно преобразовать его в последовательность байтов.
+
+
+
+- какие есть методы,
+- что делает каждый метод с примерами кода 13:
+
+averageBytesPerChar()
+Returns the average number of bytes that will be produced for each character of input.
+Возвращает среднее количество байтов, которые будут созданы для каждого входного символа.
+float averageBytesPerChar = encoder.averageBytesPerChar();
+        System.out.println("Average bytes per character: " + averageBytesPerChar);
+
+
+canEncode(char c)
+Tells whether or not this encoder can encode the given character.
+Сообщает, может ли этот кодер закодировать данный символ.
+boolean canEncodeChar = encoder.canEncode('A');
+        System.out.println("Can encode 'A': " + canEncodeChar);
+
+canEncode(CharSequence cs)
+Tells whether or not this encoder can encode the given character sequence.
+Сообщает, может ли этот кодер кодировать данную последовательность символов.
+ByteBuffer encodedBuffer = encoder.encode(CharBuffer.wrap("Hello"));
+        byte[] encodedArray = encodedBuffer.array();
+        System.out.println("Encoded bytes: " + new String(encodedArray, charset));
+
+charset()
+Returns the charset that created this encoder.
+Возвращает кодировку, используемую этим CharsetEncoder.
+Charset charsetFromEncoder = encoder.charset();
+        System.out.println("Charset used by encoder: " + charsetFromEncoder);
+
+
+encode(CharBuffer in)
+Convenience method that encodes the remaining content of a single input character buffer into a newly-allocated byte buffer.
+Удобный метод, который кодирует оставшееся содержимое одного буфера входных символов во вновь выделенный буфер байтов.
+CharBuffer inputBuffer = CharBuffer.wrap("Привет, мир!");
+        ByteBuffer outputBuffer = encoder.encode(inputBuffer);
+        byte[] encodedBytes = outputBuffer.array();
+        System.out.println("Encoded bytes: " + new String(encodedBytes, charset));
+
+encode(CharBuffer in, ByteBuffer out, boolean endOfInput)
+Encodes as many characters as possible from the given input buffer, writing the results to the given output buffer.
+Кодирует как можно больше символов из заданного входного буфера, записывая результаты в заданный выходной буфер.
+CharBuffer charBuffer = CharBuffer.wrap("Hello, world!");
+        ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+        encoder.encode(charBuffer, byteBuffer, true);
+
+
+encodeLoop(CharBuffer in, ByteBuffer out)
+Encodes one or more characters into one or more bytes.
+Кодирует один или несколько символов в один или несколько байтов.
+CharBuffer input = CharBuffer.wrap("Hello");
+        ByteBuffer output = ByteBuffer.allocate(16);
+        while (input.hasRemaining()) {
+            encoder.encode(input, output, false);
+        }
+        encoder.encode(input, output, true);
+        encoder.flush(output);
+        System.out.println("Encoded loop bytes: " + new String(output.array(), charset));
+
+
+
+flush(ByteBuffer out)
+Flushes this encoder.
+Сбрасывает этот кодер.
+Завершает кодирование, записывая все оставшиеся байты в ByteBuffer.
+Возвращает CoderResult для проверки успешности операции.
+encoder.flush(byteBuffer);
+
+
+CoderResult	implFlush(ByteBuffer out)
+Flushes this encoder.
+Сбрасывает этот кодер.
+
+implOnMalformedInput(CodingErrorAction newAction)
+Reports a change to this encoder's malformed-input action.
+Сообщает об изменении действия неправильного ввода этого кодировщика.
+
+implOnUnmappableCharacter(CodingErrorAction newAction)
+Reports a change to this encoder's unmappable-character action.
+Сообщает об изменении действия неотображаемого символа этого кодировщика.
+encoder.onUnmappableCharacter(CodingErrorAction.REPORT);
+
+implReplaceWith(byte[] newReplacement)
+Reports a change to this encoder's replacement value.
+Сообщает об изменении значения замены этого кодировщика.
+
+implReset()
+Resets this encoder, clearing any charset-specific internal state.
+Сбрасывает этот кодировщик, очищая любое внутреннее состояние, зависящее от кодировки.
+
+isLegalReplacement(byte[] repl)
+Tells whether or not the given byte array is a legal replacement value for this encoder.
+Сообщает, является ли данный массив байтов допустимым значением замены для этого кодировщика.
+
+malformedInputAction()
+Returns this encoder's current action for malformed-input errors.
+Возвращает текущее действие этого кодировщика при ошибках неправильного ввода.
+CodingErrorAction malformedInputAction = encoder.malformedInputAction();
+        System.out.println("Malformed input action: " + malformedInputAction);
+
+maxBytesPerChar()
+Returns the maximum number of bytes that will be produced for each character of input.
+Возвращает максимальное количество байтов, которое будет создано для каждого входного символа.
+float maxBytesPerChar = encoder.maxBytesPerChar();
+        System.out.println("Max bytes per character: " + maxBytesPerChar);
+
+
+onMalformedInput(CodingErrorAction newAction)
+Changes this encoder's action for malformed-input errors.
+Изменяет действие этого кодировщика при ошибках неправильного ввода.
+Устанавливает действие, которое будет выполняться в случае обнаружения некорректного ввода
+(например, символа, который не может быть закодирован).
+encoder.onMalformedInput(CodingErrorAction.REPORT);
+
+
+onUnmappableCharacter(CodingErrorAction newAction)
+Changes this encoder's action for unmappable-character errors.
+Изменяет действие этого кодировщика для ошибок несопоставленных символов.
+Устанавливает действие, которое будет выполняться, если символ не может быть отображен в байты в текущей кодировке.
+
+
+replacement()
+Returns this encoder's replacement value.
+Возвращает значение замены этого кодировщика.
+ byte[] replacementBytes = encoder.replacement();
+        System.out.println("Replacement bytes: " + new String(replacementBytes, charset));
+
+
+replaceWith(byte[] newReplacement)
+Changes this encoder's replacement value.
+Изменяет значение замены этого кодировщика.
+byte[] replacement = "replacement".getBytes(charset);
+        encoder.replaceWith(replacement);
+
+
+reset()
+Resets this encoder, clearing any internal state.
+Сбрасывает этот кодер, очищая любое внутреннее состояние.
+encoder.reset();
+
+
+unmappableCharacterAction()
+Returns this encoder's current action for unmappable-character errors.
+Возвращает текущее действие этого кодировщика при ошибках несопоставимых символов.
+CodingErrorAction unmappableCharacterAction = encoder.unmappableCharacterAction();
+        System.out.println("Unmappable character action: " + unmappableCharacterAction);
+
+
+- применение в реальных проектах:
+
+CharsetEncoder является важным инструментом для обработки текстовой информации в Java-приложениях.
+
+* Веб-приложения - может использоваться для обработки текстовых данных. Например, при передаче данных через HTTP,
+текстовые данные могут кодироваться в соответствии с выбранной кодировкой (например, UTF-8)
+с помощью CharsetEncoder перед отправкой на сервер.
+
+* Системы обработки данных - таких как, системы аналитики или системы обработки журналов, может использоваться
+для преобразования текстовых данных, например, журнальных файлов или записей баз данных, в байты для сохранения
+в файлы или передачи между различными компонентами системы.
+
+* Многопоточные приложения - может использоваться для безопасного кодирования текстовых данных из различных потоков.
+CharsetEncoder является потокобезопасным классом, что означает, что его экземпляры могут использоваться безопасно
+в многопоточных средах без необходимости синхронизации вручную.
+
+* Системы обмена данными - может использоваться для преобразования текстовых данных из одной кодировки
+в другую перед передачей данных между системами.
+
+
+
+
+- применение совместно с другими классами которые мы знаем:
+
+CharsetEncoder может использоваться для написания закодированных байтов в поток вывода,
+такой как FileOutputStream, для сохранения в файл или передачи по сети.
+
+
+- CODE!!!!!!!!!!!!!!!!!:
+
+CharsetEncoderEx.java
+
