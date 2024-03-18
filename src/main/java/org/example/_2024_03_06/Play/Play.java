@@ -131,14 +131,11 @@ class Team extends Thread {
 
     public void makeGamy(Player player1, Player player2) throws InterruptedException {
         synchronized (this) {
-            while (players.size() < 2) {
-                this.wait();
-            }
+            player2.start();
+            player1.join();
+            player2.join();
         }
-        for (int i = 0; i < players.size(); i++) {
-            player1.run();
-            player2.run();
-        }
+
 
     }
 
@@ -150,9 +147,13 @@ class Team extends Thread {
                 //Thread.sleep(111);
                 get = exchanger.exchange(player);
                 makeGamy(player, get);
+                //points+= player.getPoints();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+        }
+        synchronized (this) {
+            this.notifyAll();
         }
     }
 
@@ -188,12 +189,12 @@ class Tourney extends Thread {
             team1.start();
             team2.start();
             //while (teams.size() < 2) {
-            while (team1.isAlive() || team2.isAlive()) {
-                this.wait();
-            }
+            // while (team1.isAlive() || team2.isAlive()) {
+                //    this.wait();
+                //}
             //}
-           // team1.join();
-            // team2.join();
+            team1.join();
+            team2.join();
         }
 //        for (int i = 0; i < teams.size(); i++) {
 //            team1.run();
